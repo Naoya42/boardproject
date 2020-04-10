@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block header %}
+<div class="alert alert-primary" role="alert">
+  コメントしよう！
+</div>
+{% endblock header %}
+
+{% block content %}
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+	<div class="container">
+		<div class="alert alert-success" role="alert">
+	<!-- 複数のデータをformで送る場合にenctypeが必要になる-->
+	<!--nameにmodelsファイルで指定したデータの名前を
+	入れ込めばデータを持ってくることができる-->
+	<P>タイトル:{{object.title}}</P>
+	<P>投稿者:{{object.author}}</P>
+	<P>内容:{{object.content}}</P>
+	<P><img src='{{object.images.url}}'></P>
+	</div>
+	<p>コメント:<input type="text" name="comment"></p>
+	<input type="hidden" name="author" value="{{ user.username }}">
+	<input type="submit" value="コメントを投稿する">
+</form>
+{% endblock content %}
