@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 
+{% block customcss %}
+{% endblock customcss %}
+
 {% block content %}
 {% if user.is_authenticated %}
 <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}

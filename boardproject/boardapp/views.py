@@ -73,14 +73,11 @@ class BoardCreate(CreateView):
 	success_url = reverse_lazy('list')#作成完了後どのページに遷移するか決める
 
 
-def commentfunc(request, pk):
-	object = BoardModel.objects.get(pk=pk)
+def commentfunc(request, pk):#データ送信まではできた。あとは追加したコメントを表示
+	if request.method == 'POST':#多分最初のコメントで時間が入っているので、追加したものが表示されない
+		object = BoardModel.objects.get(pk=pk)
+		object.save()
+		return redirect('list')
+	else:
+		object = BoardModel.objects.get(pk=pk)
 	return render(request, 'comment.html', {'object':object})
-
-
-#class Comment(UpdateView):#コメント機能
-#	template_name_suffix = 'comment.html'
-#	pk_url_kwarg = 'BoardModel_pk'#クラスでpkを使用する場合使う
-#	model = BoardModel
-#	fields = ('author', 'comment')
-#	success_url = reverse_lazy('list')
