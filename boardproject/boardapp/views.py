@@ -73,10 +73,12 @@ class BoardCreate(CreateView):
 	success_url = reverse_lazy('list')#作成完了後どのページに遷移するか決める
 
 
-def commentfunc(request, pk):#データ送信まではできた。あとは追加したコメントを表示
-	if request.method == 'POST':#多分最初のコメントで時間が入っているので、追加したものが表示されない
-		object = BoardModel.objects.get(pk=pk)
-		object.save()
+def commentfunc(request, pk):
+	if request.method == 'POST':#method判定
+		com = BoardModel.objects.get(pk=pk)#コメントを記入する投稿のデータ取得
+		Newcom = request.POST['Newcomment']#ユーザーに入力してもらったコメントを変数に
+		com.comment = com.comment + '\n' + Newcom
+		com.save()
 		return redirect('list')
 	else:
 		object = BoardModel.objects.get(pk=pk)

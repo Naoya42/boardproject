@@ -18,7 +18,7 @@
 	  <P><img src='{{object.images.url}}'></P>
 	  <a href="{% url 'good' object.pk %}" class="btn btn-primary" role="button" aria-pressed="true">いいね:{{object.good}}</a>
 	　<a href="{% url 'read' object.pk %}" class="btn btn-secondary" role="button" aria-pressed="true">既読:{{object.read}}</a>
-	<p>コメント:{{object.comment}}</p>
+	<p>コメント:{{object.comment}}</p><!--追加したコメントは別の行になるように修正-->
 	</div>
 </div>
 {% endblock content %}
