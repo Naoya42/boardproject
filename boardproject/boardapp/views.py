@@ -76,8 +76,9 @@ class BoardCreate(CreateView):
 def commentfunc(request, pk):
 	if request.method == 'POST':#method判定
 		com = BoardModel.objects.get(pk=pk)#コメントを記入する投稿のデータ取得
-		Newcom = request.POST['Newcomment']#ユーザーに入力してもらったコメントを変数に
-		com.comment = com.comment + '\n' + Newcom
+		Newcom = request.POST['commentuser']
+		Newcom = Newcom + ':' + request.POST['Newcomment']#ユーザーに入力してもらったコメントを変数に
+		com.comment = com.comment + '\n' + Newcom#後でコメントを枠で分ける
 		com.save()
 		return redirect('list')
 	else:

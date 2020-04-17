@@ -23,7 +23,7 @@
 	<P>コメント:{{object.comment}}</P>
 	</div>
 	<p>コメント:<input type="text" name="Newcomment"></p>
-	<input type="hidden" name="author" value="{{ user.username }}">
+	<input type="hidden" name="commentuser" value="{{ user.username }}">
 	<input type="submit" value="コメントを投稿する">
 </form>
 {% endblock content %}
