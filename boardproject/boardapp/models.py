@@ -11,3 +11,4 @@ class BoardModel(models.Model):#djangoはデフォルトではnullを受け付�
 	readtext = models.CharField(max_length=100, null=True, blank=True, default='a')
 	comment = models.CharField(max_length=200, null=True, blank=True, default='コメントしてね')
 	Newcomment = models.CharField(max_length=200, null=True, blank=True, default='')
+	commentuser = models.CharField(max_length=200, null=True, blank=True, default='')
