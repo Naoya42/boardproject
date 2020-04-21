@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import BoardModel
+from .models import BoardModel, MyProfileModel
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, UpdateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import UserPassesTestMixin
 #functionの場合どのobjectを使用するか指定しなければならない
 def signupfunc(request):
 	#通信がPOSTかどうかの判断
@@ -84,3 +85,38 @@ def commentfunc(request, pk):
 	else:
 		object = BoardModel.objects.get(pk=pk)
 	return render(request, 'comment.html', {'object':object})
+
+class FirstSet(CreateView):#マイページ初回登録
+	template_name = 'firstset.html'
+	model = MyProfileModel
+	fields = ('age','hobby','occupation','Residence', 'myimages','author')
+	success_url = reverse_lazy('list')
+
+class OnlyYouMixin(UserPassesTestMixin):#マイページのユーザー認証
+    raise_exception = True
+
+    def test_func(self):
+        # 今ログインしてるユーザーのpkと、そのユーザー情報ページのpkが同じか、又はスーパーユーザーなら許可
+        user = self.request.user
+        return user.pk == self.kwargs['pk']
+
+class DetailProfile(OnlyYouMixin, DetailView):
+	model = MyProfileModel
+	template_name = 'myprofile.html'
+	fields = ('age','hobby','occupation','Residence', 'myimages','author')
+
+class UpdateProfile(OnlyYouMixin, UpdateView):
+	model = MyProfileModel
+	template_name = 'myprofile.html'
+	fields = ('age','hobby','occupation','Residence', 'myimages','author')
+	success_url = reverse_lazy('list')
+
+
+def myprofilefunc(request):#初回か表示か判別
+	plofdate = MyProfileModel.objects.all()#全てのプロフ情報をとってくる
+	loginuser = request.user.get_username()#現在ログインしているユーザーの情報
+	if loginuser in plofdate.listofcreators:#プロフ作成者一覧に名前があるか判定
+		return redirect('DetailProfile')#あるのであれば、表示するクラスへ	
+	else:#なければ追加して新規作成classへ
+		plofdate.listofcreators = plofdate.listofcreators + ' ' + loginuser
+		return redirect('firstset')
