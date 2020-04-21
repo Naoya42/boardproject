@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block header %}
+<div class="alert alert-primary" role="alert">マイページ</div>
+<P><img src='{{object.myimages.url}}'></P>
+<p>ログインユーザー:{{user.username}}</p>
+{% endblock header %}
+
+{% block content %}
+<form action="{% url 'UpdateProfile' object.pk %}" method="POST"　enctype="multipart/form-data">{% csrf_token %}
+	<div class="container">
+		<div class="alert alert-success" role="alert">
+		  <P>年齢:{{object.age}}</P>
+		  <P>趣味:{{object.hobby}}</P>
+		  <P>職業:{{object.occupation}}</P>
+		  <P>住処:{{object.Residence}}</P>
+		</div>
+	</div>
+	<input type="submit" value="変更する">
+</form>
+{% endblock content %}

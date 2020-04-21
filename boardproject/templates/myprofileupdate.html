@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block header %}
+<form action="{% url 'myprofileupdate' object.pk %}" method="POST"enctype="multipart/form-data">{% csrf_token %}
+<div class="alert alert-primary" role="alert">マイページ</div>
+<P><input type="file" name="myimages"></P>
+<p>ログインユーザー:{{user.username}}</p>
+{% endblock header %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="alert alert-success" role="alert">
+		  <P>年齢:<input type="text" name="age"></P>
+		  <P>趣味:<input type="text" name="hobby"></P>
+		  <P>職業:<input type="text" name="occupation"></P>
+		  <P>住処:<input type="text" name="Residence"></P>
+		</div>
+	</div>
+	<input type="submit" value="完了">
+</form>
+{% endblock content %}
