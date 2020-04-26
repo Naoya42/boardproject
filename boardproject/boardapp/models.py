@@ -13,17 +13,11 @@ class BoardModel(models.Model):#djangoはデフォルトではnullを受け付�
 	Newcomment = models.CharField(max_length=200, null=True, blank=True, default='')
 	commentuser = models.CharField(max_length=200, null=True, blank=True, default='')
 
+
 class MyProfileModel(models.Model):#myprofile用のclass
 	age = models.CharField(max_length=100, null=True, blank=True, default='a')#年齢
 	hobby = models.CharField(max_length=100, null=True, blank=True, default='a')#趣味
 	occupation = models.CharField(max_length=100, null=True, blank=True, default='a')#職業
 	Residence = models.CharField(max_length=100, null=True, blank=True, default='a')#住処
 	myimages = models.ImageField(upload_to='')
-	author = models.CharField(max_length=100,null=True, blank=True)
-	listofcreators = models.CharField(max_length=300,null=True, blank=True, default='a')
-
-
-
-
-	
-		
+	name = models.OneToOneField(BoardModel, on_delete=models.CASCADE, related_name='username')#BoardModelのauthorと1:1の関係

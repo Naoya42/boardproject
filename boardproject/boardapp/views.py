@@ -35,6 +35,7 @@ def loginfunc(request):
 			else:
 				return redirect('login')
 		return render(request, 'login.html')
+
 @login_required#loginしているかチェックするデコレーター
 def listfunc(request):
 	object_list = BoardModel.objects.all()
@@ -86,7 +87,7 @@ def commentfunc(request, pk):
 		object = BoardModel.objects.get(pk=pk)
 	return render(request, 'comment.html', {'object':object})
 
-class FirstSet(CreateView):#マイページ初回登録
+class FirstSet(CreateView):#マイページ初回登録	
 	template_name = 'firstset.html'
 	model = MyProfileModel
 	fields = ('age','hobby','occupation','Residence', 'myimages','author')
@@ -110,13 +111,3 @@ class UpdateProfile(OnlyYouMixin, UpdateView):
 	template_name = 'myprofile.html'
 	fields = ('age','hobby','occupation','Residence', 'myimages','author')
 	success_url = reverse_lazy('list')
-
-
-def myprofilefunc(request):#初回か表示か判別
-	plofdate = MyProfileModel.objects.all()#全てのプロフ情報をとってくる
-	loginuser = request.user.get_username()#現在ログインしているユーザーの情報
-	if loginuser in plofdate.listofcreators:#プロフ作成者一覧に名前があるか判定
-		return redirect('DetailProfile')#あるのであれば、表示するクラスへ	
-	else:#なければ追加して新規作成classへ
-		plofdate.listofcreators = plofdate.listofcreators + ' ' + loginuser
-		return redirect('firstset')

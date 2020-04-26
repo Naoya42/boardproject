@@ -5,7 +5,7 @@
 {% endblock customcss %}
 
 {% block header %}
-<form action="{% url 'myprofileupdate' object.pk %}" method="POST"enctype="multipart/form-data">{% csrf_token %}
+<form action="" method="POST"enctype="multipart/form-data">{% csrf_token %}
 <div class="alert alert-primary" role="alert">マイページ</div>
 <P><input type="file" name="myimages"></P>
 <p>ログインユーザー:{{user.username}}</p>
